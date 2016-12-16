@@ -62,7 +62,7 @@ class AnetManager(object):
         }
         json = self.request('reboot-instance', params)
         json.pop('status', None)
-        return json['reboot-instanceresponse']['return']
+        return json['reboot-instanceresponse']
 
     def destroy_cloudserver(self, instanceid):
         params = {
