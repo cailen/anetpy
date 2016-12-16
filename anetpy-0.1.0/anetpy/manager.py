@@ -147,8 +147,9 @@ class AnetManager(object):
         orderparams['Timestamp'] = str(time_since_epoch)
         orderparams['Rndguid'] = str(random_guid)
         orderparams['Signature'] = str(signature)
-
-        orderparams.update(param for param in params)
+       
+        for k,v in params:
+            orderparams.update(k) = v
 
         resp = self.request_v1(url, orderparams, method=method)
 
