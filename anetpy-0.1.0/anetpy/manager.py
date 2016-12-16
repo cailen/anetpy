@@ -23,21 +23,14 @@ class AnetError(RuntimeError):
 
 
 class AnetManager(object):
-
     def __init__(self, public_key, private_key, api_version="2010-12-30"):
         self.api_endpoint = API_ENDPOINT
         self.public_key = public_key
         self.private_key = private_key
 
     def all_active_cloudservers(self):
-        resp = []
-        params = {}
-        json_resp = self.request('list-instances', params)
-        #for k,v in json_resp['list-instancesresponse']['instancesSet']:
-        #    if x['vm_status'] == 'RUNNING':
-        #        resp.append(x)
+        json_resp = self.request('list-instances')
         return json_resp['list-instancesresponse']['instancesSet']
-        #return resp
 
     def new_cloudserver(self, servername, planname, imageid, vm_location, server_qty,
                         key_id=None, enablebackup=False):
@@ -62,25 +55,16 @@ class AnetManager(object):
         json = self.request('describe-instance', params)
         return json['describe-instanceresponse']['instanceSet']
 
-    def reboot_cloudserver(self, instanceid):
+    def power_cycle_cloudserver(self, instanceid, reboottype):
         params = {
             'instanceid': instanceid,
-            'reboottype': 'soft'
+            'reboottype': reboottype
         }
         json = self.request('reboot-instance', params)
         json.pop('status', None)
         return json['reboot-instanceresponse']['return']
 
-    def power_cycle_cloudserver(self, instanceid):
-        params = {
-            'instanceid': instanceid,
-            'reboottype': 'hard'
-        }
-        json = self.request('reboot-instance', params)
-        json.pop('status', None)
-        return json['reboot-instanceresponse']['return']
-
-    def destroy_cloudserver(self, instanceids, scrub_data=True):
+    def destroy_cloudserver(self, instanceids):
         params = {}
         count = 0
         for instanceid in instanceids:
@@ -132,7 +116,6 @@ class AnetManager(object):
 
 # low_level========================================
     def request(self, action, params={}, method='GET'):
-        
         random_guid = str(uuid.uuid4())
         time_since_epoch = int(time.time())
         string_to_sign = str(time_since_epoch) + str(random_guid)
