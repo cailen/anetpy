@@ -64,12 +64,14 @@ class AnetManager(object):
         json.pop('status', None)
         return json['reboot-instanceresponse']['return']
 
-    def destroy_cloudserver(self, instanceids):
-        params = {}
-        count = 0
-        for instanceid in instanceids:
-            count += 1
-            params['instanceid_' + count] = instanceid
+    def destroy_cloudserver(self, instanceid):
+        params = {
+            'instanceid': instanceid
+        }
+        #count = 0
+        #for instanceid in instanceids:
+        #    count += 1
+        #    params['instanceid_' + count] = instanceid
 
         json = self.request('terminate-instance', params)
         json.pop('status', None)
