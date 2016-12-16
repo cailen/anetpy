@@ -30,18 +30,19 @@ class AnetManager(object):
         self.private_key = private_key
 
     def all_active_cloudservers(self):
-        params = {
-            'Action': 'list-instances',
-        }
-        json_resp = self.request(params)
-
+        resp = []
+        params = {}
+        json_resp = self.request('list-instances', params)
+        #for k,v in json_resp['list-instancesresponse']['instancesSet']:
+        #    if x['vm_status'] == 'RUNNING':
+        #        resp.append(x)
         return json_resp['list-instancesresponse']['instancesSet']
+        #return resp
 
     def new_cloudserver(self, servername, planname, imageid, vm_location,
                         key_id=None, enablebackup=False):
 
         params = {
-            'Action': 'run-instance',
             'servername': str(servername),
             'planname': str(planname),
             'imageid': str(imageid),
@@ -50,73 +51,66 @@ class AnetManager(object):
             'enablebackup': str(enablebackup).lower()
         }
 
-        json = self.request(params)
+        json = self.request('run-instance', params)
         return json['run-instanceresponse']['instancesSet']
 
     def show_cloudserver(self, instanceid):
         params = {
-            'Action': 'describe-instance',
             'instanceid': instanceid,
         }
-        json = self.request(params)
+        json = self.request('describe-instance', params)
         return json['describe-instanceresponse']['instanceSet']
 
     def reboot_cloudserver(self, instanceid):
         params = {
-            'Action': 'reboot-instance',
             'instanceid': instanceid,
             'reboottype': 'soft'
         }
-        json = self.request(params)
+        json = self.request('reboot-instance', params)
         json.pop('status', None)
         return json['reboot-instanceresponse']['return']
 
     def power_cycle_cloudserver(self, instanceid):
         params = {
-            'Action': 'reboot-instance',
             'instanceid': instanceid,
             'reboottype': 'hard'
         }
-        json = self.request(params)
+        json = self.request('reboot-instance', params)
         json.pop('status', None)
         return json['reboot-instanceresponse']['return']
 
     def destroy_cloudserver(self, instanceids, scrub_data=True):
-        params = {
-            'Action': 'terminate-instance',
-        }
+        params = {}
         count = 0
         for instanceid in instanceids:
             count += 1
             params['instanceid_' + count] = instanceid
 
-        json = self.request(params)
+        json = self.request('terminate-instance', params)
         json.pop('status', None)
         return json['terminate-instanceresponse']['instancesSet']
 
     def populate_cloudserver_ips(self, cloudserver):
-        cloudserver[u'ip_address'] = ''
-        for networkIndex in range(len(cloudserver['networks']['v4'])):
-            network = cloudserver['networks']['v4'][networkIndex]
-            if network['type'] == 'public':
-                cloudserver[u'ip_address'] = network['ip_address']
-            if network['type'] == 'private':
-                cloudserver[u'private_ip_address'] = network['ip_address']
+        return False
+    #    cloudserver[u'ip_address'] = ''
+    #    for networkIndex in range(len(cloudserver['networks']['v4'])):
+    #        network = cloudserver['networks']['v4'][networkIndex]
+    #        if network['type'] == 'public':
+    #            cloudserver[u'ip_address'] = network['ip_address']
+    #        if network['type'] == 'private':
+    #            cloudserver[u'private_ip_address'] = network['ip_address']
 
 # images==========================================
     def all_images(self):
-        params = {
-            'Action': 'describe-image',
-        }
+        params = {}
         json = self.request(params)
-        return json['describe-imageresponse']['imagesset']
+        return json['describe-image']['imagesset']
 
     def show_image(self, imageid):
         params = {
-            'Action': 'describe-image',
             'imageid': imageid
         }
-        json = self.request(params)
+        json = self.request('describe-image', params)
         return json['describe-imageresponse']['imagesset']
 
 # ssh_keys=========================================
@@ -128,7 +122,7 @@ class AnetManager(object):
         return json['list-sshkeysresponse']['KeysSet']
 
 # plans============================================
-    def plans(self):
+    def plans(self, plan_name=None):
         params = {
             'Action': 'describe-plan',
         }
@@ -136,7 +130,8 @@ class AnetManager(object):
         return json['describe-planresponse']['plans']
 
 # low_level========================================
-    def request(self, params={}, method='GET'):
+    def request(self, action, params={}, method='GET'):
+        
         random_guid = str(uuid.uuid4())
         time_since_epoch = int(time.time())
         string_to_sign = str(time_since_epoch) + str(random_guid)
@@ -144,13 +139,15 @@ class AnetManager(object):
         signature = self.signature_request(string_to_sign, self.private_key)
 
         orderparams = OrderedDict()
-        orderparams['Action'] = str(params['Action'])
+        orderparams['Action'] = action
         orderparams['Format'] = "json"
         orderparams['Version'] = "2010-12-30"
         orderparams['ACSAccessKeyId'] = str(self.public_key)
         orderparams['Timestamp'] = str(time_since_epoch)
         orderparams['Rndguid'] = str(random_guid)
         orderparams['Signature'] = str(signature)
+
+        orderparams.update(param for param in params)
 
         resp = self.request_v1(url, orderparams, method=method)
 

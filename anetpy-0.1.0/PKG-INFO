@@ -2,9 +2,9 @@ Metadata-Version: 1.1
 Name: anetpy
 Version: 0.1.0
 Summary: Python client for the Atlantic.Net Cloud API
-Home-page: https://github.com/devo-ps/dopy
-Author: Vincent Viallet
-Author-email: vincent@devo.ps
+Home-page: http://www.derekdesignsorlando.com
+Author: Derek Wiedenhoeft
+Author-email: derek@derekdesignsorlando.com
 License: The MIT License (MIT)
 
 Copyright (c) 2013 devo.ps
@@ -25,11 +25,9 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-Download-URL: https://github.com/devo-ps/dopy/archive/master.zip
+
 Description: Atlantic.Net Cloud API Python Wrapper
         ================================
-
-        Inspired by [dop](https://github.com/ahmontero/dop).
             
             Installation
             ============

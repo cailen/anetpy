@@ -18,8 +18,7 @@ setup(
     author_email="derek@derekdesignsorlando.com",
     maintainer="Derek Wiedenhoeft",
     maintainer_email="derek@derekdesignsorlando.com",
-    url="https://github.com/devo-ps/dopy",
-    download_url="https://github.com/devo-ps/dopy/archive/master.zip",
+    url="http://www.derekdesignsorlando.com",
     classifiers=("Development Status :: 3 - Alpha",
                  "Intended Audience :: Developers",
                  "License :: OSI Approved :: MIT License",
@@ -29,5 +28,5 @@ setup(
                  "Programming Language :: Python :: 2.7"),
     license=read("LICENSE"),
     packages=['anetpy'],
-    install_requires=["requests >= 1.0.4", "six >= 1.9.0"],
+    install_requires=["requests >= 1.0.4"],
 )
