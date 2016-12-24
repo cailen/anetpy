@@ -29,22 +29,20 @@ class AnetManager(object):
         self.private_key = private_key
 
     def all_active_cloudservers(self):
-        json_resp = self.request('list-instances')
-        return json_resp['list-instancesresponse']['instancesSet']
+        json = self.request('list-instances')
+        return json['list-instancesresponse']['instancesSet']
 
-    def new_cloudserver(self, servername, planname, imageid, vm_location, server_qty,
+    def new_cloudserver(self, servername, planname, imageid, vm_location,
                         key_id=None, enablebackup=False):
-
         params = {
             'servername': str(servername),
             'planname': str(planname),
             'imageid': str(imageid),
             'vm_location': str(vm_location),
-            'server_qty': str(server_qty),
+            'server_qty': 1,
             'key_id': str(key_id),
             'enablebackup': str(enablebackup).lower()
         }
-
         json = self.request('run-instance', params)
         return json['run-instanceresponse']['instancesSet']
 
@@ -68,24 +66,9 @@ class AnetManager(object):
         params = {
             'instanceid': instanceid
         }
-        #count = 0
-        #for instanceid in instanceids:
-        #    count += 1
-        #    params['instanceid_' + count] = instanceid
-
         json = self.request('terminate-instance', params)
         json.pop('status', None)
         return json['terminate-instanceresponse']['instancesSet']
-
-    def populate_cloudserver_ips(self, cloudserver):
-        return False
-    #    cloudserver[u'ip_address'] = ''
-    #    for networkIndex in range(len(cloudserver['networks']['v4'])):
-    #        network = cloudserver['networks']['v4'][networkIndex]
-    #        if network['type'] == 'public':
-    #            cloudserver[u'ip_address'] = network['ip_address']
-    #        if network['type'] == 'private':
-    #            cloudserver[u'private_ip_address'] = network['ip_address']
 
 # images==========================================
     def all_images(self):
@@ -109,7 +92,7 @@ class AnetManager(object):
         return json['list-sshkeysresponse']['KeysSet']
 
 # plans============================================
-    def plans(self, plan_name=None):
+    def all_plans(self, plan_name=None):
         params = {
             'Action': 'describe-plan',
         }
@@ -118,10 +101,7 @@ class AnetManager(object):
 
 # low_level========================================
     def request(self, action, params={}, method='GET'):
-        random_guid = str(uuid.uuid4())
-        time_since_epoch = int(time.time())
-        string_to_sign = str(time_since_epoch) + str(random_guid)
-        url = API_ENDPOINT
+        
         signature = self.signature_request(string_to_sign, self.private_key)
 
         orderparams = OrderedDict()
@@ -136,22 +116,10 @@ class AnetManager(object):
         for k, v in params.iteritems():
             orderparams[k] = v
 
-        resp = self.request_v1(url, orderparams, method=method)
-
-        return resp
-
-    def signature_request(self, string_to_sign, private_key):
-        signature = hmac.new(
-            self.private_key, string_to_sign, hashlib.sha256).digest()
-        signature = base64.encodestring(signature)
-        signature = signature.rstrip()
-
-        return signature
-
-    def request_v1(self, url, params={}, method='GET'):
-        params = urllib.urlencode(params)
+        orderparams = urllib.urlencode(orderparams)
+        
         try:
-            resp = requests.get(url, params=params, timeout=60)
+            resp = requests.get(url, params=orderparams, timeout=60)
             json_resp = resp.json()
         except ValueError:  # requests.models.json.JSONDecodeError
             raise ValueError(
@@ -172,6 +140,20 @@ class AnetManager(object):
             raise AnetError(json_resp['error']['message'])
 
         return json_resp
+
+    #Generate the API signature
+    def signature_request(self, private_key):
+        random_guid = str(uuid.uuid4())
+        time_since_epoch = int(time.time())
+        string_to_sign = str(time_since_epoch) + str(random_guid)
+        url = API_ENDPOINT
+
+        signature = hmac.new(
+            self.private_key, string_to_sign, hashlib.sha256).digest()
+        signature = base64.encodestring(signature)
+        signature = signature.rstrip()
+
+        return signature
 
 if __name__ == '__main__':
     import os
