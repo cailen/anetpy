@@ -102,7 +102,7 @@ class AnetManager(object):
 # low_level========================================
     def request(self, action, params={}, method='GET'):
         
-        signature = self.signature_request(string_to_sign, self.private_key)
+        signature = self.signature_request(self.private_key)
 
         orderparams = OrderedDict()
         orderparams['Action'] = action
