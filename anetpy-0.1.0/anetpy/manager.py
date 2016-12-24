@@ -101,8 +101,13 @@ class AnetManager(object):
 
 # low_level========================================
     def request(self, action, params={}, method='GET'):
+
+        random_guid = str(uuid.uuid4())
+        time_since_epoch = int(time.time())
+        string_to_sign = str(time_since_epoch) + str(random_guid)
+        url = API_ENDPOINT
         
-        signature = self.signature_request(self.private_key)
+        signature = self.signature_request(string_to_sign, self.private_key)
 
         orderparams = OrderedDict()
         orderparams['Action'] = action
@@ -142,11 +147,7 @@ class AnetManager(object):
         return json_resp
 
     #Generate the API signature
-    def signature_request(self, private_key):
-        random_guid = str(uuid.uuid4())
-        time_since_epoch = int(time.time())
-        string_to_sign = str(time_since_epoch) + str(random_guid)
-        url = API_ENDPOINT
+    def signature_request(self, string_to_sign, private_key):
 
         signature = hmac.new(
             self.private_key, string_to_sign, hashlib.sha256).digest()
