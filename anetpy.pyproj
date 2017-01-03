@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0bd301e3-2434-44f7-9f5d-071654a5fde2}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>anetpy-0.1.0\anetpy\manager.py</StartupFile>
+    <StartupFile>anetpy-0.1.0\anetpy\manager_test.py</StartupFile>
     <SearchPath>..\ansible</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
