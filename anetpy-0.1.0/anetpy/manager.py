@@ -39,7 +39,6 @@ class AnetManager(object):
             'planname': str(planname),
             'imageid': str(imageid),
             'vm_location': str(vm_location),
-            'server_qty': 1,
             'key_id': str(key_id),
             'enablebackup': str(enablebackup).lower()
         }
@@ -158,9 +157,12 @@ class AnetManager(object):
 
 if __name__ == '__main__':
     import os
-    public_key = os.environ['ANET_PRIVATE_KEY']
-    private_key = os.environ['ANET_PUBLIC_KEY']
+    #public_key = os.environ['ANET_PRIVATE_KEY']
+    #private_key = os.environ['ANET_PUBLIC_KEY']
+    public_key = 'ATL8f59337f60fb45e4ff600c38e62ab540'
+    private_key = '66f002a2b6c5d742a9ce6d6e4de333534c73b128'
     anet = AnetManager(public_key, private_key, "2010-12-30")
+    cloudserver = anet.show_cloudserver(instanceid=473317)
     import sys
     fname = sys.argv[1]
     import pprint
