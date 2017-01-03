@@ -124,7 +124,7 @@ class AnetManager(object):
         
         try:
             resp = requests.get(url, params=orderparams, timeout=60)
-            json_resp = resp.json()
+            json_resp = resp.content
         except ValueError:  # requests.models.json.JSONDecodeError
             raise ValueError(
                 "The API server doesn't respond with a valid json")
