@@ -30,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="anetpy-0.1.0\anetpy\manager.py" />
+    <Compile Include="anetpy-0.1.0\anetpy\manager_test.py" />
     <Compile Include="anetpy-0.1.0\anetpy\__init__.py" />
     <Compile Include="anetpy-0.1.0\setup.py" />
   </ItemGroup>

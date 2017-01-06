@@ -70,34 +70,31 @@ class AnetManager(object):
         json.pop('status', None)
         return json['terminate-instanceresponse']['instancesSet']
 
-# images==========================================
-    def all_images(self):
-        params = {}
-        json = self.request(params)
-        return json['describe-image']['imagesset']
+## images==========================================
+#    def all_images(self):
+#        params = {}
+#        json = self.request(params)
+#        return json['describe-image']['imagesset']
 
-    def show_image(self, imageid):
-        params = {
-            'imageid': imageid
-        }
-        json = self.request('describe-image', params)
-        return json['describe-imageresponse']['imagesset']
+#    def show_image(self, imageid):
+#        params = {
+#            'imageid': imageid
+#        }
+#        json = self.request('describe-image', params)
+#        return json['describe-imageresponse']['imagesset']
 
 # ssh_keys=========================================
     def all_ssh_keys(self):
-        params = {
-            'Action': 'list-sshkeys',
-        }
-        json = self.request(params)
+        json = self.request('list-sshkeys')
         return json['list-sshkeysresponse']['KeysSet']
 
-# plans============================================
-    def all_plans(self, plan_name=None):
-        params = {
-            'Action': 'describe-plan',
-        }
-        json = self.request(params)
-        return json['describe-planresponse']['plans']
+## plans============================================
+#    def all_plans(self, plan_name=None):
+#        params = {
+#            'Action': 'describe-plan',
+#        }
+#        json = self.request(params)
+#        return json['describe-planresponse']['plans']
 
 # low_level========================================
     def request(self, action, params={}, method='GET'):
