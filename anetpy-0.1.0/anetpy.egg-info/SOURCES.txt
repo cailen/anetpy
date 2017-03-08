@@ -1,0 +1,15 @@
+CHANGES
+LICENSE
+MANIFEST.in
+README.rst
+requirements.txt
+setup.cfg
+setup.py
+anetpy/__init__.py
+anetpy/manager.py
+anetpy.egg-info/PKG-INFO
+anetpy.egg-info/SOURCES.txt
+anetpy.egg-info/dependency_links.txt
+anetpy.egg-info/pbr.json
+anetpy.egg-info/requires.txt
+anetpy.egg-info/top_level.txt
