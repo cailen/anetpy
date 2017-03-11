@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<ProfilingTarget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <ProjectTarget>
-    <TargetProject>0bd301e3-2434-44f7-9f5d-071654a5fde2</TargetProject>
-    <FriendlyName>anetpy</FriendlyName>
-  </ProjectTarget>
-</ProfilingTarget>
