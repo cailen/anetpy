@@ -34,7 +34,7 @@ class AnetManager(object):
         return json['list-instancesresponse']['instancesSet']
 
     def new_cloudserver(self, servername, planname, imageid, vm_location,
-                        key_id=None, enablebackup=False):
+                        key_id=None, enablebackup='N'):
         params = {
             'servername': str(servername),
             'planname': str(planname),

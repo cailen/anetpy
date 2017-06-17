@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: anetpy
-Version: 0.1.0
+Version: 0.1.6
 Summary: Python client for the Atlantic.Net Cloud API
 Home-page: http://www.derekdesignsorlando.com
 Author: Derek Wiedenhoeft
