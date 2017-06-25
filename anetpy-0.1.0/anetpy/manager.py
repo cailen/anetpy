@@ -90,10 +90,8 @@ class AnetManager(object):
 
 ## plans============================================
     def plans(self, plan_name=None):
-        params = {
-            'Action': 'describe-plan',
-        }
-        json = self.request(params)
+        params = {}
+        json = self.request('describe-plan')
         return json['describe-planresponse']['plans']
 
 # low_level========================================
