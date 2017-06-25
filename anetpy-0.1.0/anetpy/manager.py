@@ -157,6 +157,24 @@ if __name__ == '__main__':
     import os
     public_key = os.environ['ANET_PRIVATE_KEY']
     private_key = os.environ['ANET_PUBLIC_KEY']
+    #anet = AnetManager(public_key, private_key, "2010-12-30")
+    #Cloudserver.setup(public_key, private_key)
+    #cloudservers = Cloudserver.list_all()
+    #cloudserver = Cloudserver.add(
+    #    servername='TESTING',
+    #    planname='G2.2GB',
+    #    imageid='ubuntu-14.04_64bit',
+    #    vm_location='USEAST1',
+    #    )
+    #if cloudserver.ensure_powered_on():
+    #    changed = True
+    #    msg = "New server credentials:"
+    #    print "Test"
+    #print "Something"
+    import sys
+    fname = sys.argv[1]
+    import pprint
+    # size_id: 66, image_id: 1601, region_id: 1
     import sys
     fname = sys.argv[1]
     import pprint
