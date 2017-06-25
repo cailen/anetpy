@@ -6,3 +6,10 @@
 /anetpy-0.1.0/.vs
 /anetpy-0.1.0/anetpy/manager_test.py
 /anetpy-0.1.0/anetpy/manager_test.py
+<<<<<<< HEAD
+=======
+anetpy.pyperf
+anetpy.pyproj
+anetpy.pyproj.user
+anetpy.sln
+>>>>>>> a8cfcfb5c95be3184755aeb6722c8ee69215c85f

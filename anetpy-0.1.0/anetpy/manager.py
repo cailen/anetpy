@@ -157,6 +157,7 @@ if __name__ == '__main__':
     import os
     public_key = os.environ['ANET_PRIVATE_KEY']
     private_key = os.environ['ANET_PUBLIC_KEY']
+<<<<<<< HEAD
     #public_key = 'ATL8f59337f60fb45e4ff600c38e62ab540'
     #private_key = '66f002a2b6c5d742a9ce6d6e4de333534c73b128'
     #anet = AnetManager(public_key, private_key, "2010-12-30")
@@ -177,4 +178,9 @@ if __name__ == '__main__':
     fname = sys.argv[1]
     import pprint
     # size_id: 66, image_id: 1601, region_id: 1
+=======
+    import sys
+    fname = sys.argv[1]
+    import pprint
+>>>>>>> a8cfcfb5c95be3184755aeb6722c8ee69215c85f
     pprint.pprint(getattr(anet, fname)(*sys.argv[2:]))
