@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: anetpy
-Version: 0.1.0
+Version: 0.1.7
 Summary: Python client for the Atlantic.Net Cloud API
 Home-page: http://www.derekdesignsorlando.com
 Author: Derek Wiedenhoeft
@@ -68,12 +68,10 @@ Description: Atlantic.Net Cloud API Python Wrapper
                     >>> anet.all_active_cloudservers()
                     >>> anet.show_cloudserver('12345')
                     >>> anet.destroy_cloudserver('12345')
-                    >>> anet.all_regions()
                     >>> anet.all_images()
                     >>> anet.all_ssh_keys()
                     >>> anet.plans()
                     >>> anet.new_cloudserver('new_cloudserver', 66, 1601, 1)
-    
         
 Platform: UNKNOWN
 Classifier: Development Status :: 3 - Alpha
