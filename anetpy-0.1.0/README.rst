@@ -38,7 +38,6 @@ The methods of the AnetManager are self explanatory; ex.
             >>> anet.all_active_cloudservers()
             >>> anet.show_cloudserver('12345')
             >>> anet.destroy_cloudserver('12345')
-            >>> anet.all_regions()
             >>> anet.all_images()
             >>> anet.all_ssh_keys()
             >>> anet.plans()

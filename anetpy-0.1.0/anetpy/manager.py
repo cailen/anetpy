@@ -71,17 +71,17 @@ class AnetManager(object):
         return json['terminate-instanceresponse']['instancesSet']
 
 ## images==========================================
-#    def all_images(self):
-#        params = {}
-#        json = self.request(params)
-#        return json['describe-image']['imagesset']
+    def all_images(self):
+        params = {}
+        json = self.request(params)
+        return json['describe-image']['imagesset']
 
-#    def show_image(self, imageid):
-#        params = {
-#            'imageid': imageid
-#        }
-#        json = self.request('describe-image', params)
-#        return json['describe-imageresponse']['imagesset']
+    def show_image(self, imageid):
+        params = {
+            'imageid': imageid
+        }
+        json = self.request('describe-image', params)
+        return json['describe-imageresponse']['imagesset']
 
 # ssh_keys=========================================
     def all_ssh_keys(self):
@@ -89,12 +89,12 @@ class AnetManager(object):
         return json['list-sshkeysresponse']['KeysSet']
 
 ## plans============================================
-#    def all_plans(self, plan_name=None):
-#        params = {
-#            'Action': 'describe-plan',
-#        }
-#        json = self.request(params)
-#        return json['describe-planresponse']['plans']
+    def plans(self, plan_name=None):
+        params = {
+            'Action': 'describe-plan',
+        }
+        json = self.request(params)
+        return json['describe-planresponse']['plans']
 
 # low_level========================================
     def request(self, action, params={}, method='GET'):
@@ -103,7 +103,7 @@ class AnetManager(object):
         time_since_epoch = int(time.time())
         string_to_sign = str(time_since_epoch) + str(random_guid)
         url = API_ENDPOINT
-        
+
         signature = self.signature_request(string_to_sign, self.private_key)
 
         orderparams = OrderedDict()
@@ -119,7 +119,7 @@ class AnetManager(object):
             orderparams[k] = v
 
         orderparams = urllib.urlencode(orderparams)
-        
+
         try:
             resp = requests.get(url, params=orderparams, timeout=60)
             json_resp = jason.loads(resp.content)
