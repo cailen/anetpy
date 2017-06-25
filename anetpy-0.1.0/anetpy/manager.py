@@ -73,7 +73,7 @@ class AnetManager(object):
 ## images==========================================
     def all_images(self):
         params = {}
-        json = self.request(params)
+        json = self.request('describe-image')
         return json['describe-image']['imagesset']
 
     def show_image(self, imageid):
