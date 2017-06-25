@@ -74,7 +74,7 @@ class AnetManager(object):
     def all_images(self):
         params = {}
         json = self.request('describe-image')
-        return json['describe-image']['imagesset']
+        return json['describe-imageresponse']['imagesset']
 
     def show_image(self, imageid):
         params = {
