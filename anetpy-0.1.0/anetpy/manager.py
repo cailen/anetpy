@@ -41,7 +41,7 @@ class AnetManager(object):
             'imageid': str(imageid),
             'vm_location': str(vm_location),
             'key_id': str(key_id),
-            'enablebackup': str(enablebackup).lower()
+            'enablebackup': str(enablebackup)
         }
         json = self.request('run-instance', params)
         return json['run-instanceresponse']['instancesSet']
