@@ -17,11 +17,9 @@ import json as jason
 #API
 API_ENDPOINT = 'https://cloudapi.atlantic.net/'
 
-
 class AnetError(RuntimeError):
     """Passes any errors received after the REST request comes back."""
     pass
-
 
 class AnetManager(object):
     def __init__(self, public_key, private_key, api_version="2010-12-30"):
@@ -141,11 +139,53 @@ class AnetManager(object):
         json.pop('status', None)
         return json['delete-sshkeyresponse']
 
-## plans============================================
+## plans===========================================
     def plans(self, plan_name=None):
         params = {}
         json = self.request('describe-plan')
         return json['describe-planresponse']['plans']
+
+## public_ips======================================
+    def list_public_ips(self, location=None, ip_address=None):
+        params = {}
+        json = self.request('list-public-ips')
+        return json['list-public-ipsresponse']['KeysSet']
+    
+    def reserve_public_ip(self, location, qty=1):
+        params = {
+            'location': location,
+            'qty': qty
+        }
+        json = self.request('reserve-public-ip')
+        return json['reserve-public-ipresponse']['reserve-ip']
+
+    def release_public_ip(self, ip_address):
+        params = {
+            'ip_address': ip_address
+        }
+        json = self.request('release-public-ip')
+        return json['release-public-ipresponse']['release-ip']
+
+    def assign_public_ip(self, instanceid, ip_address):
+        params = {
+            'instanceid': instanceid,
+            'ip_address': ip_address
+        }
+        json = self.request('assign-public-ip')
+        return json['assign-public-ipresponse']['assign-ip']
+
+    def unassign_public_ip(self, ip_address):
+        params = {
+            'ip_address': ip_address
+        }
+        json = self.request('unassign-public-ip')
+        return json['unassign-public-ipresponse']['unassign-ip']
+
+# private_networks=================================
+    def list_private_networks(self):
+        params = {}
+        json = self.request('list-private-networks')
+        return json['list-private-networksresponse']['KeysSet']
 
 # low_level========================================
     def request(self, action, params={}, method='GET'):
