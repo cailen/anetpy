@@ -19,7 +19,7 @@ setup(
     maintainer="Derek Wiedenhoeft",
     maintainer_email="derek@derekdesignsorlando.com",
     url="http://www.derekdesignsorlando.com",
-    classifiers=("Development Status :: 3 - Alpha",
+    classifiers=("Development Status :: Release 1.0",
                  "Intended Audience :: Developers",
                  "License :: OSI Approved :: MIT License",
                  "Operating System :: OS Independent",
