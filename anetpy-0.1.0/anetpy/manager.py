@@ -70,6 +70,42 @@ class AnetManager(object):
         json.pop('status', None)
         return json['terminate-instanceresponse']['instancesSet']
 
+    def shutdown_cloudserver(self, instanceid, shutdowntype):
+        params = {
+            'instanceid': instanceid,
+            'shutdowntype': shutdowntype
+        }
+        json = self.request('shutdown-instance', params)
+        json.pop('status', None)
+        return json['shutdown-instanceresponse']['instancesSet']
+
+    def poweron_cloudserver(self, instanceid)
+        params = {
+            'instanceid': instanceid
+        }
+        json = self.request('power-on-instance', params)
+        json.pop('status', None)
+        return json['power-on-instanceresponse']['instancesSet']
+
+    def resize_cloudserver(self, instanceid, planname)
+        params = {
+            'instanceid': instanceid,
+            'planname': planname
+        }
+        json = self.request('resize-instance', params)
+        json.pop('status', None)
+        return json['resize-instanceresponse']['instancesSet']
+
+    def reprovision_cloudserver(self, instanceid, planname, imageid)
+        params = {
+            'instanceid': instanceid,
+            'planname': planname,
+            'imageid': imageid
+        }
+        json = self.request('reprovision-instance', params)
+        json.pop('status', None)
+        return json['reprovision-instanceresponse']['instancesSet']
+    
 ## images==========================================
     def all_images(self):
         params = {}
@@ -87,6 +123,23 @@ class AnetManager(object):
     def all_ssh_keys(self):
         json = self.request('list-sshkeys')
         return json['list-sshkeysresponse']['KeysSet']
+
+    def add_ssh_key(self, keyname, publickey):
+        params = {
+            'keyname': keyname,
+            'publickey': publickey
+        }
+        json= self.request('add-sshkey')
+        json.pop('status', None)
+        return json['add-sshkeyresponse']
+
+    def delete_ssh_key(self, keyid):
+        params = {
+            'keyid': keyid,
+        }
+        json= self.request('delete-sshkey')
+        json.pop('status', None)
+        return json['delete-sshkeyresponse']
 
 ## plans============================================
     def plans(self, plan_name=None):
