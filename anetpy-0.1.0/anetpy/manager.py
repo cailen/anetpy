@@ -33,14 +33,23 @@ class AnetManager(object):
 
     def new_cloudserver(self, servername, planname, imageid, vm_location,
                         key_id=None, enablebackup='N'):
-        params = {
-            'servername': str(servername),
-            'planname': str(planname),
-            'imageid': str(imageid),
-            'vm_location': str(vm_location),
-            'key_id': str(key_id),
-            'enablebackup': str(enablebackup)
-        }
+        if key_id is None:
+            params = {
+                'servername': str(servername),
+                'planname': str(planname),
+                'imageid': str(imageid),
+                'vm_location': str(vm_location),
+                'enablebackup': str(enablebackup)
+            }
+        else: 
+            params = {
+                'servername': str(servername),
+                'planname': str(planname),
+                'imageid': str(imageid),
+                'vm_location': str(vm_location),
+                'key_id': str(key_id),
+                'enablebackup': str(enablebackup)
+            }
         json = self.request('run-instance', params)
         return json['run-instanceresponse']['instancesSet']
 
