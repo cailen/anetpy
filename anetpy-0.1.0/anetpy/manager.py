@@ -86,7 +86,7 @@ class AnetManager(object):
         json.pop('status', None)
         return json['shutdown-instanceresponse']['instancesSet']
 
-    def poweron_cloudserver(self, instanceid)
+    def poweron_cloudserver(self, instanceid):
         params = {
             'instanceid': instanceid
         }
@@ -94,7 +94,7 @@ class AnetManager(object):
         json.pop('status', None)
         return json['power-on-instanceresponse']['instancesSet']
 
-    def resize_cloudserver(self, instanceid, planname)
+    def resize_cloudserver(self, instanceid, planname):
         params = {
             'instanceid': instanceid,
             'planname': planname
@@ -103,7 +103,7 @@ class AnetManager(object):
         json.pop('status', None)
         return json['resize-instanceresponse']['instancesSet']
 
-    def reprovision_cloudserver(self, instanceid, planname, imageid)
+    def reprovision_cloudserver(self, instanceid, planname, imageid):
         params = {
             'instanceid': instanceid,
             'planname': planname,
