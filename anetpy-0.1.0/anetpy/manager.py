@@ -17,11 +17,9 @@ import json as jason
 #API
 API_ENDPOINT = 'https://cloudapi.atlantic.net/'
 
-
 class AnetError(RuntimeError):
     """Passes any errors received after the REST request comes back."""
     pass
-
 
 class AnetManager(object):
     def __init__(self, public_key, private_key, api_version="2010-12-30"):
@@ -35,14 +33,23 @@ class AnetManager(object):
 
     def new_cloudserver(self, servername, planname, imageid, vm_location,
                         key_id=None, enablebackup='N'):
-        params = {
-            'servername': str(servername),
-            'planname': str(planname),
-            'imageid': str(imageid),
-            'vm_location': str(vm_location),
-            'key_id': str(key_id),
-            'enablebackup': str(enablebackup)
-        }
+        if key_id is None:
+            params = {
+                'servername': str(servername),
+                'planname': str(planname),
+                'imageid': str(imageid),
+                'vm_location': str(vm_location),
+                'enablebackup': str(enablebackup)
+            }
+        else: 
+            params = {
+                'servername': str(servername),
+                'planname': str(planname),
+                'imageid': str(imageid),
+                'vm_location': str(vm_location),
+                'key_id': str(key_id),
+                'enablebackup': str(enablebackup)
+            }
         json = self.request('run-instance', params)
         return json['run-instanceresponse']['instancesSet']
 
@@ -70,6 +77,42 @@ class AnetManager(object):
         json.pop('status', None)
         return json['terminate-instanceresponse']['instancesSet']
 
+    def shutdown_cloudserver(self, instanceid, shutdowntype):
+        params = {
+            'instanceid': instanceid,
+            'shutdowntype': shutdowntype
+        }
+        json = self.request('shutdown-instance', params)
+        json.pop('status', None)
+        return json['shutdown-instanceresponse']['instancesSet']
+
+    def poweron_cloudserver(self, instanceid):
+        params = {
+            'instanceid': instanceid
+        }
+        json = self.request('power-on-instance', params)
+        json.pop('status', None)
+        return json['power-on-instanceresponse']['instancesSet']
+
+    def resize_cloudserver(self, instanceid, planname):
+        params = {
+            'instanceid': instanceid,
+            'planname': planname
+        }
+        json = self.request('resize-instance', params)
+        json.pop('status', None)
+        return json['resize-instanceresponse']['instancesSet']
+
+    def reprovision_cloudserver(self, instanceid, planname, imageid):
+        params = {
+            'instanceid': instanceid,
+            'planname': planname,
+            'imageid': imageid
+        }
+        json = self.request('reprovision-instance', params)
+        json.pop('status', None)
+        return json['reprovision-instanceresponse']['instancesSet']
+    
 ## images==========================================
     def all_images(self):
         params = {}
@@ -88,11 +131,70 @@ class AnetManager(object):
         json = self.request('list-sshkeys')
         return json['list-sshkeysresponse']['KeysSet']
 
-## plans============================================
+    def add_ssh_key(self, keyname, publickey):
+        params = {
+            'keyname': keyname,
+            'publickey': publickey
+        }
+        json= self.request('add-sshkey')
+        json.pop('status', None)
+        return json['add-sshkeyresponse']
+
+    def delete_ssh_key(self, keyid):
+        params = {
+            'keyid': keyid,
+        }
+        json= self.request('delete-sshkey')
+        json.pop('status', None)
+        return json['delete-sshkeyresponse']
+
+## plans===========================================
     def plans(self, plan_name=None):
         params = {}
         json = self.request('describe-plan')
         return json['describe-planresponse']['plans']
+
+## public_ips======================================
+    def list_public_ips(self, location=None, ip_address=None):
+        params = {}
+        json = self.request('list-public-ips')
+        return json['list-public-ipsresponse']['KeysSet']
+    
+    def reserve_public_ip(self, location, qty=1):
+        params = {
+            'location': location,
+            'qty': qty
+        }
+        json = self.request('reserve-public-ip')
+        return json['reserve-public-ipresponse']['reserve-ip']
+
+    def release_public_ip(self, ip_address):
+        params = {
+            'ip_address': ip_address
+        }
+        json = self.request('release-public-ip')
+        return json['release-public-ipresponse']['release-ip']
+
+    def assign_public_ip(self, instanceid, ip_address):
+        params = {
+            'instanceid': instanceid,
+            'ip_address': ip_address
+        }
+        json = self.request('assign-public-ip')
+        return json['assign-public-ipresponse']['assign-ip']
+
+    def unassign_public_ip(self, ip_address):
+        params = {
+            'ip_address': ip_address
+        }
+        json = self.request('unassign-public-ip')
+        return json['unassign-public-ipresponse']['unassign-ip']
+
+# private_networks=================================
+    def list_private_networks(self):
+        params = {}
+        json = self.request('list-private-networks')
+        return json['list-private-networksresponse']['KeysSet']
 
 # low_level========================================
     def request(self, action, params={}, method='GET'):
